@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import pizzas from "./assets/pizzas.json";
 import "./scss/app.scss";
 import Header from "./components/Header";
 import Categories from "./components/Categories";
@@ -18,7 +18,9 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <PizzaCard />
+            {pizzas.map((obj) => (
+              <PizzaCard key={obj.id} {...obj} />
+            ))}
           </div>
         </div>
       </div>
