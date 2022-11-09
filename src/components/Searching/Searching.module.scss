@@ -1,0 +1,44 @@
+.parent {
+  position: relative;
+  margin-top: 10px;
+}
+.input {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 8px 15px;
+  width: 250px;
+  height: 40px;
+  border-radius: 17px;
+  transition: 0.2s ease-in-out;
+  font-size: 15px;
+  box-shadow: 0.3px 0.3px 0.3px 0.3px rgb(0, 0, 0, 0.1);
+  &:focus {
+    width: 400px;
+    transition: 0.2s ease-in-out;
+  }
+}
+.clear {
+  opacity: 0.5;
+  cursor: pointer;
+  position: absolute;
+  top: 25%;
+  transform: translateX(25%);
+  right: 0;
+  margin-right: 20px;
+  height: 19px;
+  width: 19px;
+  transition: 0.4s ease-in-out;
+  &:hover {
+    opacity: 1;
+    transition: 0.4s ease-in-out;
+    transform: translateX(25%) rotate(180deg);
+  }
+}
+
+.lope {
+  transform: rotate(90deg);
+  position: absolute;
+  top: 7px;
+  left: -35px;
+  height: 30px;
+  width: 30px;
+}

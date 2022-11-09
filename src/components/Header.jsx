@@ -1,20 +1,28 @@
 import pizzaImg from "../assets/img/pizza-logo.svg";
 import React from "react";
+import { Link } from "react-router-dom";
+import Searching from "./Searching";
+import { useSelector } from "react-redux";
 
-function Header() {
+const Header = () => {
+  const { pizzas, totalPrice } = useSelector((state) => state.cart);
+
   return (
     <div className="header">
       <div className="container">
-        <div className="header__logo">
-          <img width="38" src={pizzaImg} alt="Pizza logo" />
-          <div>
-            <h1>React Pizza</h1>
-            <p>самая вкусная пицца во вселенной</p>
+        <Link to="/">
+          <div className="header__logo">
+            <img width="38" src={pizzaImg} alt="Pizza logo" />
+            <div>
+              <h1>Pizza Store</h1>
+              <p>Всегда свежие и вкусные ингредиенты</p>
+            </div>
           </div>
-        </div>
+        </Link>
+        <Searching />
         <div className="header__cart">
-          <a href="/cart.html" className="button button--cart">
-            <span>520 ₽</span>
+          <Link to="Cart" className="button button--cart">
+            <span>{totalPrice} ₽</span>
             <div className="button__delimiter"></div>
             <svg
               width="18"
@@ -45,12 +53,12 @@ function Header() {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>3</span>
-          </a>
+            <span>{pizzas.length}</span>
+          </Link>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Header;

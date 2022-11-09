@@ -1,20 +1,40 @@
 import React from "react";
+import ProductStorage from "../context";
 
-function Sort() {
+export const sortArr = [
+  { name: "популярности", sort: "rating" },
+  { name: "цене", sort: "price" },
+  { name: "алфавиту", sort: "title" },
+];
+
+const Sort = ({ onClickSort, filterOrder }) => {
   const [sortPopupActive, setSortPopupActive] = React.useState(false);
-  const [selectedSort, setSelectedSort] = React.useState(0);
-
+  const { order, setOrder } = React.useContext(ProductStorage);
+  const popupRef = React.useRef();
   const onCLickSelectedItem = (value) => {
-    setSelectedSort(value);
+    onClickSort(value);
     setSortPopupActive(false);
   };
 
-  const sortArr = ["популярности", "цене", "алфавиту"];
+  React.useEffect(() => {
+    const handleDisablePopup = (event) => {
+      const composed = event.composedPath();
+      if (!composed.includes(popupRef.current)) {
+        setSortPopupActive(false);
+      }
+    };
+    document.body.addEventListener("click", handleDisablePopup);
+    return () => {
+      document.body.removeEventListener("click", handleDisablePopup);
+    };
+  }, []);
 
   return (
-    <div className="sort">
+    <div className="sort" ref={popupRef}>
       <div className="sort__label">
         <svg
+          onClick={() => setOrder(!order)}
+          className={order ? "svgRotate" : ""}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -28,26 +48,30 @@ function Sort() {
         </svg>
         <b>Сортировка по:</b>
         <span onClick={() => setSortPopupActive(!sortPopupActive)}>
-          {sortArr[selectedSort]}
+          {filterOrder.name}
         </span>
       </div>
-      {sortPopupActive && (
+      {sortPopupActive ? (
         <div className="sort__popup">
           <ul>
-            {sortArr.map((el, i) => (
+            {sortArr.map((obj, i) => (
               <li
-                onClick={() => onCLickSelectedItem(i)}
-                key={el}
-                className={selectedSort === i ? "active" : ""}
+                onClick={() => onCLickSelectedItem(obj)}
+                key={i}
+                className={
+                  filterOrder.sort === obj.sort ? "active" : "popupNotActive"
+                }
               >
-                {el}
+                {obj.name}
               </li>
             ))}
           </ul>
         </div>
+      ) : (
+        ""
       )}
     </div>
   );
-}
+};
 
 export default Sort;
