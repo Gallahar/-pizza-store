@@ -53,7 +53,7 @@ const Header = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{pizzas.length}</span>
+            <span>{pizzas.reduce((sum, obj) => sum + obj.count, 0)}</span>
           </Link>
         </div>
       </div>

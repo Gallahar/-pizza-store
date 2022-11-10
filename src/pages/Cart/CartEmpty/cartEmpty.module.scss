@@ -1,0 +1,23 @@
+.parent {
+  text-align: center;
+  justify-content: center;
+
+  p {
+    opacity: 0.8;
+  }
+  img {
+    align-items: center;
+    height: 500px;
+    width: 261px;
+  }
+  .buttonBack {
+    border-radius: 30px;
+    padding: 10px 20px;
+    min-width: 100px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out;
+    border: 1px solid transparent;
+  }
+}

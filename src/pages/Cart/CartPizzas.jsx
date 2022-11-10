@@ -4,7 +4,7 @@ import {
   addPizza,
   removePizza,
   removePizzaCount,
-} from "../redux/slices/cartSlice";
+} from "../../redux/slices/cartSlice";
 
 export const CartPizzas = ({
   id,
