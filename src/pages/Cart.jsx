@@ -8,11 +8,13 @@ import { clearPizza } from "../redux/slices/cartSlice";
 function Cart() {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const pizzaArr = useSelector((state) => state.cart.pizzas);
-  console.log(pizzaArr);
+
   const dispatch = useDispatch();
 
   const clearCart = () => {
-    dispatch(clearPizza());
+    if (window.confirm("Вы действительно хотите очистить вашу корзину?")) {
+      dispatch(clearPizza());
+    }
   };
 
   return (

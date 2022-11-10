@@ -27,15 +27,31 @@ const cartSlice = createSlice({
       );
     },
     removePizza: (state, action) => {
-      state.pizzas = state.pizzas.filter((obj) => obj.id !== action.payload);
+      state.pizzas = state.pizzas.filter((obj) => obj.id !== action.payload.id);
+      state.totalPrice = state.pizzas.reduce(
+        (sum, obj) => sum + obj.price * obj.count,
+        0
+      );
     },
     clearPizza: (state) => {
       state.pizzas = [];
       state.totalPrice = 0;
     },
+    removePizzaCount: (state, action) => {
+      const findPizza = state.pizzas.find(
+        (obj) => obj.id === action.payload.id
+      );
+      if (findPizza.count > 1) {
+        findPizza.count--;
+      }
+      state.totalPrice = state.pizzas.reduce(
+        (sum, obj) => sum + obj.price * obj.count,
+        0
+      );
+    },
   },
 });
 
-export const { addPizza, removePizza, clearPizza, countPizzas } =
+export const { addPizza, removePizza, clearPizza, removePizzaCount } =
   cartSlice.actions;
 export default cartSlice.reducer;
