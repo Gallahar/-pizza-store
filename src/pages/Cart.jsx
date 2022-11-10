@@ -12,8 +12,10 @@ function Cart() {
   const dispatch = useDispatch();
 
   const clearCart = () => {
-    if (window.confirm("Вы действительно хотите очистить вашу корзину?")) {
-      dispatch(clearPizza());
+    if (pizzaArr.length !== 0) {
+      if (window.confirm("Вы действительно хотите очистить вашу корзину?")) {
+        dispatch(clearPizza());
+      }
     }
   };
 
@@ -96,7 +98,9 @@ function Cart() {
         </div>
         <div className="content__items">
           {pizzaArr
-            ? pizzaArr.map((obj) => <CartPizzas key={obj.id} {...obj} />)
+            ? pizzaArr.map((obj) => (
+                <CartPizzas key={obj.id + obj.size + obj.type} {...obj} />
+              ))
             : ""}
         </div>
         <div className="cart__bottom">

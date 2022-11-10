@@ -11,7 +11,10 @@ const cartSlice = createSlice({
   reducers: {
     addPizza: (state, action) => {
       const findPizza = state.pizzas.find(
-        (obj) => obj.id === action.payload.id
+        (obj) =>
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size
       );
       if (findPizza) {
         findPizza.count++;
@@ -21,17 +24,31 @@ const cartSlice = createSlice({
           count: 1,
         });
       }
+
       state.totalPrice = state.pizzas.reduce(
         (sum, obj) => sum + obj.price * obj.count,
         0
       );
     },
     removePizza: (state, action) => {
-      state.pizzas = state.pizzas.filter((obj) => obj.id !== action.payload.id);
-      state.totalPrice = state.pizzas.reduce(
-        (sum, obj) => sum + obj.price * obj.count,
-        0
+      const findPizza = state.pizzas.find(
+        (obj) =>
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size
       );
+      if (findPizza) {
+        state.pizzas = state.pizzas.filter(
+          (obj) =>
+            obj.id !== action.payload.id ||
+            obj.type !== action.payload.type ||
+            obj.size !== action.payload.size
+        );
+        state.totalPrice = state.pizzas.reduce(
+          (sum, obj) => sum + obj.price * obj.count,
+          0
+        );
+      }
     },
     clearPizza: (state) => {
       state.pizzas = [];
@@ -39,7 +56,10 @@ const cartSlice = createSlice({
     },
     removePizzaCount: (state, action) => {
       const findPizza = state.pizzas.find(
-        (obj) => obj.id === action.payload.id
+        (obj) =>
+          obj.id === action.payload.id &&
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size
       );
       if (findPizza.count > 1) {
         findPizza.count--;

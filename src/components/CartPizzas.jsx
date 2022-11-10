@@ -20,6 +20,8 @@ export const CartPizzas = ({
     dispatch(
       addPizza({
         id,
+        type,
+        size,
       })
     );
   };
@@ -27,6 +29,8 @@ export const CartPizzas = ({
     dispatch(
       removePizzaCount({
         id,
+        type,
+        size,
       })
     );
   };
@@ -34,6 +38,8 @@ export const CartPizzas = ({
     dispatch(
       removePizza({
         id,
+        type,
+        size,
       })
     );
   };
