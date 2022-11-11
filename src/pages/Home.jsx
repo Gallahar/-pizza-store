@@ -17,16 +17,18 @@ import PizzaCard from "../components/PizzaCard";
 
 import ProductStorage from "../context";
 import Pagination from "../components/Pagination";
+import { setPizzas } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const dataPizzas = useSelector((state) => state.pizzas.pizzas);
+  console.log(dataPizzas);
   const categoryIndex = useSelector((state) => state.sorting.categoryIndex);
   const filterOrder = useSelector((state) => state.sorting.sort);
   const searchInput = useSelector((state) => state.sorting.search);
   const selectedPage = useSelector((state) => state.sorting.pagination);
 
-  const [dataPizzas, setDataPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [order, setOrder] = React.useState(false);
 
@@ -64,7 +66,7 @@ const Home = () => {
                 categoryIndex ? `category=${categoryIndex}&` : ""
               }sortBy=${filterOrder.sort}&order=desc${searching}`
         );
-        setDataPizzas(data);
+        dispatch(setPizzas(data));
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -127,12 +129,10 @@ const Home = () => {
     <ProductStorage.Provider
       value={{
         order,
-        setDataPizzas,
         selectedPage,
         setIsLoading,
         isLoading,
         setOrder,
-        dataPizzas,
       }}
     >
       <div className="container">
