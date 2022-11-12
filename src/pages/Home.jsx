@@ -1,5 +1,4 @@
-import React from "react";
-import axios from "axios";
+import React, { useRef } from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
@@ -17,20 +16,30 @@ import PizzaCard from "../components/PizzaCard";
 
 import ProductStorage from "../context";
 import Pagination from "../components/Pagination";
-import { setPizzas } from "../redux/slices/pizzasSlice";
+import { fetchPizzasById } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const dataPizzas = useSelector((state) => state.pizzas.pizzas);
-  console.log(dataPizzas);
+  const { pizzas, status } = useSelector((state) => state.pizzas);
   const categoryIndex = useSelector((state) => state.sorting.categoryIndex);
   const filterOrder = useSelector((state) => state.sorting.sort);
   const searchInput = useSelector((state) => state.sorting.search);
   const selectedPage = useSelector((state) => state.sorting.pagination);
-
-  const [isLoading, setIsLoading] = React.useState(true);
+  const isSearch = React.useRef(false);
   const [order, setOrder] = React.useState(false);
+  const isComponentMounted = React.useRef(false);
+  const getSortedPizzaData = () => {
+    dispatch(
+      fetchPizzasById({
+        order,
+        selectedPage,
+        filterOrder,
+        searchInput,
+        categoryIndex,
+      })
+    );
+  };
 
   const onClickSort = (obj) => {
     dispatch(setFilterOrder(obj));
@@ -39,6 +48,19 @@ const Home = () => {
   const onClickCategory = (id) => {
     dispatch(setCategoryIndex(id));
   };
+
+  React.useEffect(() => {
+    if (isComponentMounted.current) {
+      const queryString = qs.stringify({
+        sort: filterOrder.sort,
+        categoryIndex,
+        selectedPage,
+      });
+      navigate(`?${queryString}`);
+    }
+    isComponentMounted.current = true;
+  }, [categoryIndex, navigate, filterOrder, order, selectedPage]);
+
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.slice(1));
@@ -49,41 +71,17 @@ const Home = () => {
           sort,
         })
       );
+      isSearch.current = true;
     }
-  }, [dispatch]);
+  }, []);
 
   React.useEffect(() => {
-    const getSortedPizzaData = async () => {
-      const searching = searchInput ? `&search=${searchInput}` : "";
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(
-          order
-            ? `https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?p=${selectedPage}&l=4&${
-                categoryIndex ? `category=${categoryIndex}&` : ""
-              }sortBy=${filterOrder.sort}${searching}`
-            : `https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?p=${selectedPage}&l=4&${
-                categoryIndex ? `category=${categoryIndex}&` : ""
-              }sortBy=${filterOrder.sort}&order=desc${searching}`
-        );
-        dispatch(setPizzas(data));
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getSortedPizzaData();
     window.scrollTo(0, 0);
-  }, [categoryIndex, searchInput, filterOrder, order, selectedPage]);
-
-  React.useEffect(() => {
-    const queryString = qs.stringify({
-      sort: filterOrder.sort,
-      categoryIndex,
-      selectedPage,
-    });
-    navigate(`?${queryString}`);
-  }, [categoryIndex, navigate, filterOrder, order, selectedPage]);
+    if (!isSearch.current) {
+      getSortedPizzaData();
+    }
+    isSearch.current = false;
+  }, [categoryIndex, searchInput, filterOrder, order, selectedPage, isSearch]);
 
   // React.useEffect(() => {
   //   setIsLoading(true);
@@ -121,7 +119,7 @@ const Home = () => {
   //   getSortedData();
   // }, [selectedSort]);
 
-  const renderedPizzas = dataPizzas.map((obj) => (
+  const renderedPizzas = pizzas.map((obj) => (
     <PizzaCard key={obj.id} {...obj} />
   ));
 
@@ -130,8 +128,6 @@ const Home = () => {
       value={{
         order,
         selectedPage,
-        setIsLoading,
-        isLoading,
         setOrder,
       }}
     >
@@ -147,7 +143,7 @@ const Home = () => {
           {searchInput ? `Ищем пиццы по названию: ${searchInput}` : "Все пиццы"}
         </h2>
         <div className="content__items">
-          {isLoading
+          {status === "loading"
             ? [...new Array(10)].map((_, i) => <ContentLoading key={i} />)
             : renderedPizzas}
         </div>

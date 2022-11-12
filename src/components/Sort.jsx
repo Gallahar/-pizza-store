@@ -51,25 +51,23 @@ const Sort = ({ onClickSort, filterOrder }) => {
           {filterOrder.name}
         </span>
       </div>
-      {sortPopupActive ? (
-        <div className="sort__popup">
-          <ul>
-            {sortArr.map((obj, i) => (
-              <li
-                onClick={() => onCLickSelectedItem(obj)}
-                key={i}
-                className={
-                  filterOrder.sort === obj.sort ? "active" : "popupNotActive"
-                }
-              >
-                {obj.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        ""
-      )}
+      <div className={sortPopupActive ? "sort__popup" : "popupNotActive"}>
+        <ul>
+          {sortPopupActive
+            ? sortArr.map((obj, i) => (
+                <li
+                  onClick={() => onCLickSelectedItem(obj)}
+                  key={i}
+                  className={
+                    filterOrder.sort === obj.sort ? "active" : "popupNotActive"
+                  }
+                >
+                  {obj.name}
+                </li>
+              ))
+            : ""}
+        </ul>
+      </div>
     </div>
   );
 };
