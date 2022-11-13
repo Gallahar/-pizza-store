@@ -4,7 +4,7 @@ const Categories = ({ onClickCategory, categoryIndex }) => {
   const categoryArr = [
     "Все",
     "Мясные",
-    "Вегетарианская",
+    "Вегетарианские",
     "Гриль",
     "Острые",
     "Закрытые",

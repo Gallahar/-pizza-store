@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPizza, countPizzas } from "../../redux/slices/cartSlice";
-import axios from "axios";
+import { addPizza } from "../../redux/slices/cartSlice";
 
 function PizzaCard({ id, title, price, imageUrl, types, sizes }) {
   const forms = ["Тонкое", "Традиционное"];

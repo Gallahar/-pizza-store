@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
@@ -14,14 +14,16 @@ import Sort, { sortArr } from "../components/Sort";
 import ContentLoading from "../components/PizzaCard/ContentLoading";
 import PizzaCard from "../components/PizzaCard";
 
-import ProductStorage from "../context";
 import Pagination from "../components/Pagination";
-import { fetchPizzasById } from "../redux/slices/pizzasSlice";
+import {
+  fetchPizzasById,
+  selectPizzaDataStatus,
+} from "../redux/slices/pizzasSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { pizzas, status } = useSelector((state) => state.pizzas);
+  const { pizzas, status } = useSelector(selectPizzaDataStatus);
   const categoryIndex = useSelector((state) => state.sorting.categoryIndex);
   const filterOrder = useSelector((state) => state.sorting.sort);
   const searchInput = useSelector((state) => state.sorting.search);
@@ -124,32 +126,29 @@ const Home = () => {
   ));
 
   return (
-    <ProductStorage.Provider
-      value={{
-        order,
-        selectedPage,
-        setOrder,
-      }}
-    >
-      <div className="container">
-        <div className="content__top">
-          <Categories
-            onClickCategory={onClickCategory}
-            categoryIndex={categoryIndex}
-          />
-          <Sort filterOrder={filterOrder} onClickSort={onClickSort} />
-        </div>
-        <h2 className="content__title">
-          {searchInput ? `Ищем пиццы по названию: ${searchInput}` : "Все пиццы"}
-        </h2>
-        <div className="content__items">
-          {status === "loading"
-            ? [...new Array(10)].map((_, i) => <ContentLoading key={i} />)
-            : renderedPizzas}
-        </div>
-        <Pagination />
+    <div className="container">
+      <div className="content__top">
+        <Categories
+          onClickCategory={onClickCategory}
+          categoryIndex={categoryIndex}
+        />
+        <Sort
+          filterOrder={filterOrder}
+          onClickSort={onClickSort}
+          order={order}
+          setOrder={setOrder}
+        />
       </div>
-    </ProductStorage.Provider>
+      <h2 className="content__title">
+        {searchInput ? `Ищем пиццы по названию: ${searchInput}` : "Все пиццы"}
+      </h2>
+      <div className="content__items">
+        {status === "loading"
+          ? [...new Array(10)].map((_, i) => <ContentLoading key={i} />)
+          : renderedPizzas}
+      </div>
+      <Pagination />
+    </div>
   );
 };
 

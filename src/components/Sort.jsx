@@ -1,5 +1,4 @@
 import React from "react";
-import ProductStorage from "../context";
 
 export const sortArr = [
   { name: "популярности", sort: "rating" },
@@ -7,9 +6,8 @@ export const sortArr = [
   { name: "алфавиту", sort: "title" },
 ];
 
-const Sort = ({ onClickSort, filterOrder }) => {
+const Sort = ({ onClickSort, filterOrder, order, setOrder }) => {
   const [sortPopupActive, setSortPopupActive] = React.useState(false);
-  const { order, setOrder } = React.useContext(ProductStorage);
   const popupRef = React.useRef();
   const onCLickSelectedItem = (value) => {
     onClickSort(value);
