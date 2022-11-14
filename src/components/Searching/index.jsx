@@ -15,7 +15,7 @@ const Searching = () => {
     debounce((str) => {
       dispatch(setSearch(str));
     }, 200),
-    []
+    [str]
   );
   const onSearchInput = (event) => {
     setStr(event.target.value);

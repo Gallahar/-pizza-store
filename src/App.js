@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
+import PizzaInfo from "./pages/PizzaInfo/PizzaInfo";
 
 import "./scss/app.scss";
 import Header from "./components/Header";
@@ -22,6 +23,7 @@ function App() {
           element={cartProducts.length > 0 ? <Cart /> : <CartEmpty />}
         />
         <Route path="*" element={<NotFound />} />
+        <Route path="/pizza/:id" element={<PizzaInfo />} />
       </Routes>
     </div>
   );

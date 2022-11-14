@@ -1,6 +1,6 @@
 import React from "react";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -21,6 +21,7 @@ import {
 } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
+  const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pizzas, status } = useSelector(selectPizzaDataStatus);
@@ -64,8 +65,8 @@ const Home = () => {
   }, [categoryIndex, navigate, filterOrder, order, selectedPage]);
 
   React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.slice(1));
+    if (search) {
+      const params = qs.parse(search.slice(1));
       const sort = sortArr.find((obj) => obj.sort === params.sort);
       dispatch(
         setParams({
