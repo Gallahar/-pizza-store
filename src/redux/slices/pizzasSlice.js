@@ -4,17 +4,16 @@ import axios from "axios";
 export const fetchPizzasById = createAsyncThunk(
   "pizzas/fetchPizzasStatus",
   async (params) => {
-    const { order, selectedPage, filterOrder, searchInput, categoryIndex } =
-      params;
+    const { order, pagination, sort, searchInput, categoryIndex } = params;
     const searching = searchInput ? `&search=${searchInput}` : "";
     const { data } = await axios.get(
       order
-        ? `https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?p=${selectedPage}&l=4&${
+        ? `https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?p=${pagination}&l=4&${
             categoryIndex ? `category=${categoryIndex}&` : ""
-          }sortBy=${filterOrder.sort}${searching}`
-        : `https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?p=${selectedPage}&l=4&${
+          }sortBy=${sort.sort}${searching}`
+        : `https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?p=${pagination}&l=4&${
             categoryIndex ? `category=${categoryIndex}&` : ""
-          }sortBy=${filterOrder.sort}&order=desc${searching}`
+          }sortBy=${sort.sort}&order=desc${searching}`
     );
     return data;
   }

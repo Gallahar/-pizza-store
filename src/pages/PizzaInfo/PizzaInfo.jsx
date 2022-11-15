@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import styles from "./pizzaInfo.module.scss";
 
 const PizzaInfo = () => {
   const [dataPizza, setDataPizza] = React.useState();
@@ -23,11 +24,10 @@ const PizzaInfo = () => {
   }
 
   return (
-    <div className="container">
-      <img src={dataPizza.imageUrl} alt="pizza" />
+    <div className={styles.parent}>
       <h1>{dataPizza.title}</h1>
-      <p>{dataPizza.title}</p>
-      <h4>{dataPizza.price}</h4>
+      <img src={dataPizza.imageUrl} alt="pizza" />
+      <p>{dataPizza.description}</p>
     </div>
   );
 };

@@ -1,4 +1,10 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectFilter,
+  setFilterOrder,
+  setOrder,
+} from "../redux/slices/filterSlice";
 
 export const sortArr = [
   { name: "популярности", sort: "rating" },
@@ -6,9 +12,14 @@ export const sortArr = [
   { name: "алфавиту", sort: "title" },
 ];
 
-const Sort = ({ onClickSort, filterOrder, order, setOrder }) => {
+const Sort = () => {
+  const dispatch = useDispatch();
+  const { sort, order } = useSelector(selectFilter);
   const [sortPopupActive, setSortPopupActive] = React.useState(false);
   const popupRef = React.useRef();
+  const onClickSort = (obj) => {
+    dispatch(setFilterOrder(obj));
+  };
   const onCLickSelectedItem = (value) => {
     onClickSort(value);
     setSortPopupActive(false);
@@ -31,7 +42,7 @@ const Sort = ({ onClickSort, filterOrder, order, setOrder }) => {
     <div className="sort" ref={popupRef}>
       <div className="sort__label">
         <svg
-          onClick={() => setOrder(!order)}
+          onClick={() => dispatch(setOrder(!order))}
           className={order ? "svgRotate" : ""}
           width="10"
           height="6"
@@ -46,7 +57,7 @@ const Sort = ({ onClickSort, filterOrder, order, setOrder }) => {
         </svg>
         <b>Сортировка по:</b>
         <span onClick={() => setSortPopupActive(!sortPopupActive)}>
-          {filterOrder.name}
+          {sort.name}
         </span>
       </div>
       <div className={sortPopupActive ? "sort__popup" : "popupNotActive"}>
@@ -57,7 +68,7 @@ const Sort = ({ onClickSort, filterOrder, order, setOrder }) => {
                   onClick={() => onCLickSelectedItem(obj)}
                   key={i}
                   className={
-                    filterOrder.sort === obj.sort ? "active" : "popupNotActive"
+                    sort.sort === obj.sort ? "active" : "popupNotActive"
                   }
                 >
                   {obj.name}

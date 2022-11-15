@@ -2,11 +2,11 @@ import React from "react";
 import ReactPaginate from "react-paginate";
 
 import styles from "./pagination.module.scss";
-import { setPagination } from "../../redux/slices/filterSlice";
+import { selectFilter, setPagination } from "../../redux/slices/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const Pagination = () => {
-  const currentPage = useSelector((state) => state.sorting.pagination);
+  const { pagination } = useSelector(selectFilter);
   const dispatch = useDispatch();
   const onChangePaginationPage = (event) => {
     dispatch(setPagination(event.selected + 1));
@@ -19,7 +19,7 @@ const Pagination = () => {
       onPageChange={onChangePaginationPage}
       pageRangeDisplayed={4}
       pageCount={3}
-      forcePage={currentPage - 1}
+      forcePage={pagination - 1}
       previousLabel="<"
       renderOnZeroPageCount={null}
     />

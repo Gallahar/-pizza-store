@@ -3,11 +3,7 @@ import qs from "qs";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setCategoryIndex,
-  setFilterOrder,
-  setParams,
-} from "../redux/slices/filterSlice";
+import { selectFilter, setParams } from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
 import Sort, { sortArr } from "../components/Sort";
@@ -25,44 +21,34 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pizzas, status } = useSelector(selectPizzaDataStatus);
-  const categoryIndex = useSelector((state) => state.sorting.categoryIndex);
-  const filterOrder = useSelector((state) => state.sorting.sort);
-  const searchInput = useSelector((state) => state.sorting.search);
-  const selectedPage = useSelector((state) => state.sorting.pagination);
+  const { pagination, categoryIndex, sort, searchInput, order } =
+    useSelector(selectFilter);
   const isSearch = React.useRef(false);
-  const [order, setOrder] = React.useState(false);
+
   const isComponentMounted = React.useRef(false);
   const getSortedPizzaData = () => {
     dispatch(
       fetchPizzasById({
         order,
-        selectedPage,
-        filterOrder,
+        pagination,
+        sort,
         searchInput,
         categoryIndex,
       })
     );
   };
 
-  const onClickSort = (obj) => {
-    dispatch(setFilterOrder(obj));
-  };
-
-  const onClickCategory = (id) => {
-    dispatch(setCategoryIndex(id));
-  };
-
   React.useEffect(() => {
     if (isComponentMounted.current) {
       const queryString = qs.stringify({
-        sort: filterOrder.sort,
+        sort: sort.sort,
         categoryIndex,
-        selectedPage,
+        pagination,
       });
       navigate(`?${queryString}`);
     }
     isComponentMounted.current = true;
-  }, [categoryIndex, navigate, filterOrder, order, selectedPage]);
+  }, [categoryIndex, navigate, sort, order, pagination]);
 
   React.useEffect(() => {
     if (search) {
@@ -84,7 +70,7 @@ const Home = () => {
       getSortedPizzaData();
     }
     isSearch.current = false;
-  }, [categoryIndex, searchInput, filterOrder, order, selectedPage, isSearch]);
+  }, [categoryIndex, searchInput, sort, order, pagination, isSearch]);
 
   // React.useEffect(() => {
   //   setIsLoading(true);
@@ -129,16 +115,8 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          onClickCategory={onClickCategory}
-          categoryIndex={categoryIndex}
-        />
-        <Sort
-          filterOrder={filterOrder}
-          onClickSort={onClickSort}
-          order={order}
-          setOrder={setOrder}
-        />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">
         {searchInput ? `Ищем пиццы по названию: ${searchInput}` : "Все пиццы"}

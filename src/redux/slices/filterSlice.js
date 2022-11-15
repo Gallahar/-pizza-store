@@ -7,7 +7,8 @@ const initialState = {
     name: "популярности",
     sort: "rating",
   },
-  search: "",
+  searchInput: "",
+  order: false,
 };
 
 const filterSlice = createSlice({
@@ -21,7 +22,7 @@ const filterSlice = createSlice({
       state.sort = action.payload;
     },
     setSearch: (state, action) => {
-      state.search = action.payload;
+      state.searchInput = action.payload;
     },
     setPagination: (state, action) => {
       state.pagination = action.payload;
@@ -29,10 +30,15 @@ const filterSlice = createSlice({
     setParams: (state, action) => {
       state.sort = action.payload.sort;
       state.categoryIndex = Number(action.payload.categoryIndex);
-      state.pagination = Number(action.payload.selectedPage);
+      state.pagination = Number(action.payload.pagination);
+    },
+    setOrder: (state, action) => {
+      state.order = action.payload;
     },
   },
 });
+
+export const selectFilter = (state) => state.sorting;
 
 export const {
   setCategoryIndex,
@@ -40,5 +46,6 @@ export const {
   setSearch,
   setPagination,
   setParams,
+  setOrder,
 } = filterSlice.actions;
 export default filterSlice.reducer;
