@@ -3,9 +3,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Searching from "./Searching";
 import { useSelector } from "react-redux";
+import { selectCartPizzas } from "../redux/slices/cartSlice";
 
 const Header = () => {
-  const { pizzas, totalPrice } = useSelector((state) => state.cart);
+  const { pizzas, totalPrice } = useSelector(selectCartPizzas);
+  const productsCount = pizzas.reduce(
+    (sum: number, obj: { count: number }) => sum + obj.count,
+    0
+  );
 
   return (
     <div className="header">
@@ -53,7 +58,7 @@ const Header = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{pizzas.reduce((sum, obj) => sum + obj.count, 0)}</span>
+            <span>{productsCount}</span>
           </Link>
         </div>
       </div>

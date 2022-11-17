@@ -24,8 +24,8 @@ const Home = () => {
   const { pagination, categoryIndex, sort, searchInput, order } =
     useSelector(selectFilter);
   const isSearch = React.useRef(false);
-
   const isComponentMounted = React.useRef(false);
+
   const getSortedPizzaData = () => {
     dispatch(
       fetchPizzasById({
@@ -71,42 +71,6 @@ const Home = () => {
     }
     isSearch.current = false;
   }, [categoryIndex, searchInput, sort, order, pagination, isSearch]);
-
-  // React.useEffect(() => {
-  //   setIsLoading(true);
-  //   const getSortedData = async () => {
-  //     try {
-  //       switch (selectedSort) {
-  //         case 0:
-  //           const sortedRating = await axios.get(
-  //             `https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?sortBy=rating&order=desc`
-  //           );
-  //           setDataPizzas(sortedRating.data);
-  //           setIsLoading(false);
-  //           break;
-  //         case 1:
-  //           const sortedPrice = await axios.get(
-  //             "https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?sortBy=price&order=desc"
-  //           );
-  //           setDataPizzas(sortedPrice.data);
-  //           setIsLoading(false);
-  //           break;
-  //         case 2:
-  //           const sortedAlphabet = await axios.get(
-  //             "https://63514f09dfe45bbd55bca49f.mockapi.io/pizzas?sortBy=title&order=asc"
-  //           );
-  //           setDataPizzas(sortedAlphabet.data);
-  //           setIsLoading(false);
-  //           break;
-  //         default:
-  //           break;
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getSortedData();
-  // }, [selectedSort]);
 
   const renderedPizzas = pizzas.map((obj) => (
     <PizzaCard key={obj.id} {...obj} />

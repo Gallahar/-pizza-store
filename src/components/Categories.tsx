@@ -2,7 +2,7 @@ import React from "react";
 import { selectFilter, setCategoryIndex } from "../redux/slices/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const Categories = () => {
+const Categories: React.FC = () => {
   const { categoryIndex } = useSelector(selectFilter);
   const dispatch = useDispatch();
   const categoryArr = [
@@ -13,7 +13,7 @@ const Categories = () => {
     "Острые",
     "Закрытые",
   ];
-  const onClickCategory = (id) => {
+  const onClickCategory = (id: number) => {
     dispatch(setCategoryIndex(id));
   };
 

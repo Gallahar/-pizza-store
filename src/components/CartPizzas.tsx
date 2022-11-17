@@ -4,9 +4,19 @@ import {
   addPizza,
   removePizza,
   removePizzaCount,
-} from "../../redux/slices/cartSlice";
+} from "../redux/slices/cartSlice";
 
-export const CartPizzas = ({
+type CartPizzasProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: string;
+  size: number;
+  count: number;
+};
+
+export const CartPizzas: React.FC<CartPizzasProps> = ({
   id,
   title,
   price,

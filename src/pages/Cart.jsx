@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CartPizzas } from "./CartPizzas";
-import { clearPizza } from "../../redux/slices/cartSlice";
+import { CartPizzas } from "../components/CartPizzas";
+import { clearPizza } from "../redux/slices/cartSlice";
 
 function Cart() {
   const totalPrice = useSelector((state) => state.cart.totalPrice);

@@ -6,7 +6,12 @@ import {
   setOrder,
 } from "../redux/slices/filterSlice";
 
-export const sortArr = [
+type Sort = {
+  name: string;
+  sort: string;
+};
+
+export const sortArr: Sort[] = [
   { name: "популярности", sort: "rating" },
   { name: "цене", sort: "price" },
   { name: "алфавиту", sort: "title" },
@@ -15,18 +20,18 @@ export const sortArr = [
 const Sort = () => {
   const dispatch = useDispatch();
   const { sort, order } = useSelector(selectFilter);
-  const [sortPopupActive, setSortPopupActive] = React.useState(false);
-  const popupRef = React.useRef();
-  const onClickSort = (obj) => {
+  const [sortPopupActive, setSortPopupActive] = React.useState<Boolean>(false);
+  const popupRef = React.useRef<HTMLDivElement>(null);
+  const onClickSort = (obj: Sort) => {
     dispatch(setFilterOrder(obj));
   };
-  const onCLickSelectedItem = (value) => {
+  const onCLickSelectedItem = (value: Sort) => {
     onClickSort(value);
     setSortPopupActive(false);
   };
 
   React.useEffect(() => {
-    const handleDisablePopup = (event) => {
+    const handleDisablePopup = (event: any) => {
       const composed = event.composedPath();
       if (!composed.includes(popupRef.current)) {
         setSortPopupActive(false);

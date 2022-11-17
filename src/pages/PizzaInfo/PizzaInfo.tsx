@@ -1,11 +1,16 @@
 import React from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import styles from "./pizzaInfo.module.scss";
+import { useParams, useNavigate } from "react-router-dom";
+import styles from "./styles.module.scss";
 
-const PizzaInfo = () => {
-  const [dataPizza, setDataPizza] = React.useState();
+const PizzaInfo: React.FC = () => {
+  const [dataPizza, setDataPizza] = React.useState<{
+    imageUrl: string;
+    title: string;
+    description: string;
+  }>();
   const { id } = useParams();
+  const navigate = useNavigate();
   React.useEffect(() => {
     async function getDataPizza() {
       try {
@@ -14,13 +19,18 @@ const PizzaInfo = () => {
         );
         setDataPizza(data);
       } catch (error) {
-        console.log(error);
+        alert("Не удалось загрузить пиццу!");
+        return navigate("/");
       }
     }
     getDataPizza();
   }, []);
   if (!dataPizza) {
-    return "Загружаю....";
+    return (
+      <div className={styles.parent}>
+        <p>Загружаю....</p>
+      </div>
+    );
   }
 
   return (
