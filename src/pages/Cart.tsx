@@ -3,16 +3,15 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CartPizzas } from "../components/CartPizzas";
-import { clearPizza } from "../redux/slices/cartSlice";
+import { clearPizza, selectCartPizzas } from "../redux/slices/cartSlice";
 
 function Cart() {
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
-  const pizzaArr = useSelector((state) => state.cart.pizzas);
+  const { totalPrice, pizzas } = useSelector(selectCartPizzas);
 
   const dispatch = useDispatch();
 
   const clearCart = () => {
-    if (pizzaArr.length !== 0) {
+    if (pizzas.length !== 0) {
       if (window.confirm("Вы действительно хотите очистить вашу корзину?")) {
         dispatch(clearPizza());
       }
@@ -97,8 +96,8 @@ function Cart() {
           </div>
         </div>
         <div className="content__items">
-          {pizzaArr
-            ? pizzaArr.map((obj) => (
+          {pizzas
+            ? pizzas.map((obj) => (
                 <CartPizzas key={obj.id + obj.size + obj.type} {...obj} />
               ))
             : ""}
@@ -108,9 +107,7 @@ function Cart() {
             <span>
               {" "}
               Всего пицц:{" "}
-              <b>
-                {pizzaArr.reduce((sum, obj) => sum + obj.count, 0)} шт.
-              </b>{" "}
+              <b>{pizzas.reduce((sum, obj) => sum + obj.count, 0)} шт.</b>{" "}
             </span>
             <span>
               {" "}
