@@ -11,7 +11,7 @@ export interface IFilterSliceState {
   categoryIndex: number;
   sort: TSort;
   searchInput: string;
-  order: boolean;
+  order: boolean | string;
 }
 
 const initialState: IFilterSliceState = {
@@ -45,6 +45,7 @@ const filterSlice = createSlice({
       state.sort = action.payload.sort;
       state.categoryIndex = Number(action.payload.categoryIndex);
       state.pagination = Number(action.payload.pagination);
+      state.order = action.payload.order;
     },
     setOrder: (state, action: PayloadAction<boolean>) => {
       state.order = action.payload;

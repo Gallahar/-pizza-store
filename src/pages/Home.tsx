@@ -2,8 +2,12 @@ import React from "react";
 import qs from "qs";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
-import { selectFilter, setParams } from "../redux/slices/filterSlice";
+import { useSelector } from "react-redux";
+import {
+  IFilterSliceState,
+  selectFilter,
+  setParams,
+} from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
 import Sort, { sortArr } from "../components/Sort";
@@ -15,11 +19,12 @@ import {
   fetchPizzasById,
   selectPizzaDataStatus,
 } from "../redux/slices/pizzasSlice";
+import { useAppDispatch } from "../redux/store";
 
-const Home = () => {
+const Home: React.FC = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { pizzas, status } = useSelector(selectPizzaDataStatus);
   const { pagination, categoryIndex, sort, searchInput, order } =
     useSelector(selectFilter);
@@ -44,6 +49,7 @@ const Home = () => {
         sort: sort.sort,
         categoryIndex,
         pagination,
+        order: order ? "desc" : "",
       });
       navigate(`?${queryString}`);
     }
@@ -53,12 +59,15 @@ const Home = () => {
   React.useEffect(() => {
     if (search) {
       const params = qs.parse(search.slice(1));
+      console.log(params);
       const sort = sortArr.find((obj) => obj.sort === params.sort);
+      if (sort) {
+        params.sort = sort;
+      }
       dispatch(
         setParams({
           ...params,
-          sort,
-        })
+        } as unknown as IFilterSliceState)
       );
       isSearch.current = true;
     }
@@ -72,7 +81,7 @@ const Home = () => {
     isSearch.current = false;
   }, [categoryIndex, searchInput, sort, order, pagination, isSearch]);
 
-  const renderedPizzas = pizzas.map((obj) => (
+  const renderedPizzas = pizzas.map((obj: any) => (
     <PizzaCard key={obj.id} {...obj} />
   ));
 
