@@ -1,39 +1,35 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectFilter,
-  setFilterOrder,
-  setOrder,
-} from "../redux/slices/filterSlice";
+import { useDispatch } from "react-redux";
+import { setFilterOrder, setOrder } from "../redux/fliter/slice";
+import { TSort } from "../redux/fliter/types";
 
-type Sort = {
-  name: string;
-  sort: string;
+type TSortProps = {
+  sort: TSort;
+  order: string | boolean;
 };
 
-export const sortArr: Sort[] = [
+export const sortArr: TSort[] = [
   { name: "популярности", sort: "rating" },
   { name: "цене", sort: "price" },
   { name: "алфавиту", sort: "title" },
 ];
 
-const Sort = () => {
+const Sort: React.FC<TSortProps> = React.memo(({ sort, order }) => {
   const dispatch = useDispatch();
-  const { sort, order } = useSelector(selectFilter);
-  const [sortPopupActive, setSortPopupActive] = React.useState<Boolean>(false);
+  const [sortPopupActive, setSortPopupActive] = React.useState<boolean>(false);
   const popupRef = React.useRef<HTMLDivElement>(null);
-  const onClickSort = (obj: Sort) => {
+  const onClickSort = (obj: TSort) => {
     dispatch(setFilterOrder(obj));
   };
-  const onCLickSelectedItem = (value: Sort) => {
+  const onCLickSelectedItem = (value: TSort) => {
     onClickSort(value);
     setSortPopupActive(false);
   };
 
   React.useEffect(() => {
-    const handleDisablePopup = (event: any) => {
+    const handleDisablePopup = (event: MouseEvent) => {
       const composed = event.composedPath();
-      if (!composed.includes(popupRef.current)) {
+      if (popupRef.current && !composed.includes(popupRef.current)) {
         setSortPopupActive(false);
       }
     };
@@ -84,6 +80,6 @@ const Sort = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Sort;
