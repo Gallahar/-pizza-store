@@ -1,19 +1,22 @@
 import React from "react";
-import { selectFilter, setCategoryIndex } from "../redux/slices/filterSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { setCategoryIndex } from "../redux/fliter/slice";
+import { useDispatch } from "react-redux";
 
-const Categories: React.FC = () => {
-  const { categoryIndex } = useSelector(selectFilter);
+type TCategoryProps = {
+  value: number;
+};
+
+const categoryArr: string[] = [
+  "Все",
+  "Мясные",
+  "Вегетарианские",
+  "Гриль",
+  "Острые",
+  "Закрытые",
+];
+const Categories: React.FC<TCategoryProps> = React.memo(({ value }) => {
   const dispatch = useDispatch();
-  const categoryArr = [
-    "Все",
-    "Мясные",
-    "Вегетарианские",
-    "Гриль",
-    "Острые",
-    "Закрытые",
-  ];
-  const onClickCategory = (id: number) => {
+  const onClickCategory: (param: number) => void = (id) => {
     dispatch(setCategoryIndex(id));
   };
 
@@ -24,7 +27,7 @@ const Categories: React.FC = () => {
           <li
             key={categoryName}
             onClick={() => onClickCategory(index)}
-            className={categoryIndex === index ? "active" : ""}
+            className={value === index ? "active" : ""}
           >
             {categoryName}
           </li>
@@ -32,6 +35,6 @@ const Categories: React.FC = () => {
       </ul>
     </div>
   );
-};
+});
 
 export default Categories;
