@@ -1,12 +1,30 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addPizza } from "../../redux/slices/cartSlice";
+import { useSelector } from "react-redux";
+import { addPizza } from "../../redux/cart/slice";
+import { TCartPizza } from "../../redux/cart/types";
 import { Link } from "react-router-dom";
+import { RootStore, useAppDispatch } from "../../redux/store";
 
-function PizzaCard({ id, title, price, imageUrl, types, sizes }) {
-  const forms = ["Тонкое", "Традиционное"];
-  const dispatch = useDispatch();
-  const cartPizza = useSelector((state) =>
+type PizzaCardProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  types: number[];
+  sizes: number[];
+};
+
+const PizzaCard: React.FC<PizzaCardProps> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  types,
+  sizes,
+}) => {
+  const forms: string[] = ["Тонкое", "Традиционное"];
+  const dispatch = useAppDispatch();
+  const cartPizza = useSelector((state: RootStore) =>
     state.cart.pizzas.find((obj) => obj.id === id)
   );
   const [activeType, setActiveType] = React.useState(0);
@@ -14,13 +32,14 @@ function PizzaCard({ id, title, price, imageUrl, types, sizes }) {
 
   const addedCount = cartPizza ? cartPizza.count : 0;
   const onClickAdd = () => {
-    const pizza = {
+    const pizza: TCartPizza = {
       id,
       title,
       price,
       imageUrl,
       type: forms[activeType],
       size: sizes[activeSize],
+      count: 0,
     };
     dispatch(addPizza({ ...pizza }));
     // dispatch(countPizzas);
@@ -83,6 +102,6 @@ function PizzaCard({ id, title, price, imageUrl, types, sizes }) {
       </div>
     </div>
   );
-}
+};
 
 export default PizzaCard;
