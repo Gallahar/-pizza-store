@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICartSliceState, TCartPizza } from "./types";
+import { getCartLSData } from "../../utils/getCartLSData";
+import { getTotalPriceLS } from "../../utils/getTotalPriceLS";
 
 const initialState: ICartSliceState = {
-  totalPrice: 0,
-  pizzas: [],
+  totalPrice: getTotalPriceLS(),
+  pizzas: getCartLSData(),
 };
 
 const cartSlice = createSlice({

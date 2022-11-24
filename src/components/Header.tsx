@@ -1,16 +1,26 @@
 import pizzaImg from "../assets/img/pizza-logo.svg";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Searching from "./Searching";
 import { useSelector } from "react-redux";
-import { selectCartPizzas } from "../redux/slices/cartSlice";
+import { selectCartPizzas } from "../redux/cart/selectors";
 
-const Header = () => {
+const Header: React.FC = () => {
+  const firstRender = React.useRef(false);
+  const location = useLocation();
   const { pizzas, totalPrice } = useSelector(selectCartPizzas);
   const productsCount = pizzas.reduce(
     (sum: number, obj: { count: number }) => sum + obj.count,
     0
   );
+
+  React.useEffect(() => {
+    if (firstRender.current) {
+      const dataToLocal = JSON.stringify(pizzas);
+      localStorage.setItem("cartPizzas", dataToLocal);
+    }
+    firstRender.current = true;
+  }, [pizzas]);
 
   return (
     <div className="header">
@@ -24,7 +34,7 @@ const Header = () => {
             </div>
           </div>
         </Link>
-        <Searching />
+        {location.pathname !== "/Cart" && <Searching />}
         <div className="header__cart">
           <Link to="Cart" className="button button--cart">
             <span>{totalPrice} ₽</span>
