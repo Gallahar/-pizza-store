@@ -1,25 +1,30 @@
 import React from "react";
 import qs from "qs";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import { useSelector } from "react-redux";
-import {
-  IFilterSliceState,
-  selectFilter,
-  setParams,
-} from "../redux/slices/filterSlice";
+import { selectFilter } from "../redux/fliter/selectors";
+import { setParams } from "../redux/fliter/slice";
 
-import Categories from "../components/Categories";
-import Sort, { sortArr } from "../components/Sort";
-import ContentLoading from "../components/PizzaCard/ContentLoading";
-import PizzaCard from "../components/PizzaCard";
-
-import Pagination from "../components/Pagination";
+import { sortArr } from "../components/Sort";
 import {
-  fetchPizzasById,
-  selectPizzaDataStatus,
-} from "../redux/slices/pizzasSlice";
+  ContentLoading,
+  Categories,
+  PizzaCard,
+  Pagination,
+  Sort,
+} from "../components";
+
+import { fetchPizzasById } from "../redux/pizzas/slice";
+import { selectPizzaDataStatus } from "../redux/pizzas/selectors";
 import { useAppDispatch } from "../redux/store";
+
+type TParsedQuery = {
+  pagination: string;
+  categoryIndex: string;
+  order: string;
+  sort: string;
+  searchInput: string;
+};
 
 const Home: React.FC = () => {
   const { search } = useLocation();
@@ -49,25 +54,29 @@ const Home: React.FC = () => {
         sort: sort.sort,
         categoryIndex,
         pagination,
+        searchInput,
         order: order ? "desc" : "",
       });
       navigate(`?${queryString}`);
     }
     isComponentMounted.current = true;
-  }, [categoryIndex, navigate, sort, order, pagination]);
+  }, [categoryIndex, searchInput, navigate, sort, order, pagination]);
 
   React.useEffect(() => {
     if (search) {
-      const params = qs.parse(search.slice(1));
-      console.log(params);
-      const sort = sortArr.find((obj) => obj.sort === params.sort);
-      if (sort) {
-        params.sort = sort;
-      }
+      const params = qs.parse(search.slice(1)) as TParsedQuery;
+
+      const sort =
+        sortArr.find((obj) => obj.sort === params.sort) || sortArr[0];
+
       dispatch(
         setParams({
-          ...params,
-        } as unknown as IFilterSliceState)
+          pagination: Number(params.pagination || "0"),
+          categoryIndex: Number(params.categoryIndex || "0"),
+          searchInput: params.searchInput || "",
+          sort: sort,
+          order: params.order,
+        })
       );
       isSearch.current = true;
     }
@@ -81,15 +90,15 @@ const Home: React.FC = () => {
     isSearch.current = false;
   }, [categoryIndex, searchInput, sort, order, pagination, isSearch]);
 
-  const renderedPizzas = pizzas.map((obj: any) => (
+  const renderedPizzas = pizzas.map((obj) => (
     <PizzaCard key={obj.id} {...obj} />
   ));
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories />
-        <Sort />
+        <Categories value={categoryIndex} />
+        <Sort sort={sort} order={order} />
       </div>
       <h2 className="content__title">
         {searchInput ? `Ищем пиццы по названию: ${searchInput}` : "Все пиццы"}
@@ -99,7 +108,7 @@ const Home: React.FC = () => {
           ? [...new Array(10)].map((_, i) => <ContentLoading key={i} />)
           : renderedPizzas}
       </div>
-      <Pagination />
+      <Pagination pagination={pagination} />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import cartEmpty from "../../assets/img/CartEmpty.svg";
 import styles from "./cartEmpty.module.scss";
 import { Link } from "react-router-dom";
-const CartEmpty: React.FC = () => {
+export const CartEmpty: React.FC = () => {
   return (
     <div className={styles.parent}>
       <h1>Ох, в вашей корзине ничего нет! </h1>
@@ -16,5 +16,3 @@ const CartEmpty: React.FC = () => {
     </div>
   );
 };
-
-export default CartEmpty;

@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import styles from "./styles.module.scss";
 
 const PizzaInfo: React.FC = () => {
@@ -38,6 +38,9 @@ const PizzaInfo: React.FC = () => {
       <h1>{dataPizza.title}</h1>
       <img src={dataPizza.imageUrl} alt="pizza" />
       <p>{dataPizza.description}</p>
+      <Link to="/" className="button button--outline go-back-btn">
+        <span>Вернуться на главную ?</span>
+      </Link>
     </div>
   );
 };

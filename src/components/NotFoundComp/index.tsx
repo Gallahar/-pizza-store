@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { Link } from "react-router-dom";
 
-const NotFoundComp: React.FC = () => {
+export const NotFoundComp: React.FC = () => {
   return (
     <>
       <div className={styles.notFound}>
@@ -19,5 +19,3 @@ const NotFoundComp: React.FC = () => {
     </>
   );
 };
-
-export default NotFoundComp;

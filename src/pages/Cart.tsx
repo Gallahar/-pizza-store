@@ -1,14 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { clearPizza } from "../redux/cart/slice";
+import { selectCartPizzas } from "../redux/cart/selectors";
 
-import { CartPizzas } from "../components/CartPizzas";
-import { clearPizza, selectCartPizzas } from "../redux/slices/cartSlice";
+import { CartEmpty, CartPizzas } from "../components";
 
-function Cart() {
+const Cart: React.FC = () => {
   const { totalPrice, pizzas } = useSelector(selectCartPizzas);
 
   const dispatch = useDispatch();
+
+  const onclickPurchase = () => {
+    alert(
+      "Спасибо за заказ, к сожалению в данный момент у нас нету админки и оплаты, а так же не настроен бек.... так что курьер к вам не приедет ;("
+    );
+    dispatch(clearPizza());
+  };
 
   const clearCart = () => {
     if (pizzas.length !== 0) {
@@ -17,6 +25,9 @@ function Cart() {
       }
     }
   };
+  if (pizzas.length < 1) {
+    return <CartEmpty />;
+  }
 
   return (
     <div className="container container--cart">
@@ -97,7 +108,7 @@ function Cart() {
         </div>
         <div className="content__items">
           {pizzas
-            ? pizzas.map((obj) => (
+            ? pizzas.map((obj: any) => (
                 <CartPizzas key={obj.id + obj.size + obj.type} {...obj} />
               ))
             : ""}
@@ -107,7 +118,10 @@ function Cart() {
             <span>
               {" "}
               Всего пицц:{" "}
-              <b>{pizzas.reduce((sum, obj) => sum + obj.count, 0)} шт.</b>{" "}
+              <b>
+                {pizzas.reduce((sum: number, obj: any) => sum + obj.count, 0)}{" "}
+                шт.
+              </b>{" "}
             </span>
             <span>
               {" "}
@@ -137,14 +151,14 @@ function Cart() {
 
               <span>Вернуться назад</span>
             </Link>
-            <div className="button pay-btn">
+            <button onClick={onclickPurchase} className="button pay-btn">
               <span>Оплатить сейчас</span>
-            </div>
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Cart;

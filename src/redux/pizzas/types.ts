@@ -11,10 +11,10 @@ export type TPizzas = {
 
 export interface IPizzasSliceState {
   pizzas: TPizzas[];
-  status: Status;
+  status: EStatus;
 }
 
-export enum Status {
+export enum EStatus {
   LOADING = "loading",
   FULFILLED = "fulfilled",
   ERROR = "error",

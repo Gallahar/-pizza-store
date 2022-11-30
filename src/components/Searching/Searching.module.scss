@@ -3,7 +3,8 @@
   margin-top: 10px;
 }
 .input {
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  opacity: 0.7;
+  border: 1px solid rgba(0, 0, 0, 0.4);
   padding: 8px 15px;
   width: 250px;
   height: 40px;
@@ -12,6 +13,7 @@
   font-size: 15px;
   box-shadow: 0.3px 0.3px 0.3px 0.3px rgb(0, 0, 0, 0.1);
   &:focus {
+    opacity: 1;
     width: 400px;
     @media (max-width: 500px) {
       width: 300px;
@@ -41,10 +43,15 @@
 }
 
 .lope {
+  cursor: pointer;
   transform: rotate(90deg);
   position: absolute;
   top: 7px;
   left: -35px;
   height: 30px;
   width: 30px;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
 }

@@ -12,23 +12,23 @@ type PaginationEvent = {
   selected: number;
 };
 
-const Pagination: React.FC<TPaginationProps> = React.memo(({ pagination }) => {
-  const dispatch = useDispatch();
-  const onChangePaginationPage = (event: PaginationEvent) => {
-    dispatch(setPagination(event.selected + 1));
-  };
-  return (
-    <ReactPaginate
-      className={styles.pagination}
-      breakLabel="..."
-      nextLabel=">"
-      onPageChange={onChangePaginationPage}
-      pageRangeDisplayed={4}
-      pageCount={3}
-      forcePage={pagination - 1}
-      previousLabel="<"
-    />
-  );
-});
-
-export default Pagination;
+export const Pagination: React.FC<TPaginationProps> = React.memo(
+  ({ pagination }) => {
+    const dispatch = useDispatch();
+    const onChangePaginationPage = (event: PaginationEvent) => {
+      dispatch(setPagination(event.selected + 1));
+    };
+    return (
+      <ReactPaginate
+        className={styles.pagination}
+        breakLabel="..."
+        nextLabel=">"
+        onPageChange={onChangePaginationPage}
+        pageRangeDisplayed={4}
+        pageCount={3}
+        forcePage={pagination - 1}
+        previousLabel="<"
+      />
+    );
+  }
+);

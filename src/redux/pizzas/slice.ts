@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IFilterSliceState } from "../fliter/types";
-import { TPizzas, IPizzasSliceState, Status } from "./types";
+import { TPizzas, IPizzasSliceState, EStatus } from "./types";
 
 export const fetchPizzasById = createAsyncThunk<TPizzas[], IFilterSliceState>(
   "pizzas/fetchPizzasStatus",
@@ -23,7 +23,7 @@ export const fetchPizzasById = createAsyncThunk<TPizzas[], IFilterSliceState>(
 
 const initialState: IPizzasSliceState = {
   pizzas: [],
-  status: Status.LOADING,
+  status: EStatus.LOADING,
 };
 
 const pizzasSlice = createSlice({
@@ -36,15 +36,15 @@ const pizzasSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPizzasById.pending, (state) => {
-      state.status = Status.LOADING;
+      state.status = EStatus.LOADING;
       state.pizzas = [];
     });
     builder.addCase(fetchPizzasById.fulfilled, (state, action) => {
       state.pizzas = action.payload;
-      state.status = Status.FULFILLED;
+      state.status = EStatus.FULFILLED;
     });
     builder.addCase(fetchPizzasById.rejected, (state, action) => {
-      state.status = Status.ERROR;
+      state.status = EStatus.ERROR;
       state.pizzas = [];
       console.log(action.payload);
     });

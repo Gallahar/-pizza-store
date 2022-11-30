@@ -13,7 +13,9 @@
       margin-right: 3px;
       opacity: 0.5;
       color: indianred;
+      transition: 0.2s ease-in-out;
       &:hover {
+        transition: 0.15s ease-in-out;
         background-color: lightsalmon;
         opacity: 1;
         box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
@@ -26,7 +28,7 @@
       a {
         background-color: lightsalmon;
         opacity: 1;
-        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
         cursor: pointer;
       }
     }

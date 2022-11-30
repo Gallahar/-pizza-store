@@ -14,7 +14,7 @@ type PizzaCardProps = {
   sizes: number[];
 };
 
-const PizzaCard: React.FC<PizzaCardProps> = ({
+export const PizzaCard: React.FC<PizzaCardProps> = ({
   id,
   title,
   price,
@@ -42,8 +42,6 @@ const PizzaCard: React.FC<PizzaCardProps> = ({
       count: 0,
     };
     dispatch(addPizza({ ...pizza }));
-    // dispatch(countPizzas);
-    // axios.post(`https://63514f09dfe45bbd55bca49f.mockapi.io/cart`, pizza);
   };
 
   return (
@@ -103,5 +101,3 @@ const PizzaCard: React.FC<PizzaCardProps> = ({
     </div>
   );
 };
-
-export default PizzaCard;

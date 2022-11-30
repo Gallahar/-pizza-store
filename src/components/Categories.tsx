@@ -14,7 +14,7 @@ const categoryArr: string[] = [
   "Острые",
   "Закрытые",
 ];
-const Categories: React.FC<TCategoryProps> = React.memo(({ value }) => {
+export const Categories: React.FC<TCategoryProps> = React.memo(({ value }) => {
   const dispatch = useDispatch();
   const onClickCategory: (param: number) => void = (id) => {
     dispatch(setCategoryIndex(id));
@@ -36,5 +36,3 @@ const Categories: React.FC<TCategoryProps> = React.memo(({ value }) => {
     </div>
   );
 });
-
-export default Categories;

@@ -33,6 +33,7 @@ const filterSlice = createSlice({
       state.categoryIndex = Number(action.payload.categoryIndex);
       state.pagination = Number(action.payload.pagination);
       state.order = action.payload.order;
+      state.searchInput = action.payload.searchInput;
     },
     setOrder: (state, action: PayloadAction<boolean>) => {
       state.order = action.payload;

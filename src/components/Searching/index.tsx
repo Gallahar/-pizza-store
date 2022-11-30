@@ -1,23 +1,37 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import debounce from "lodash.debounce";
 
 import searchSvg from "../../assets/img/search.svg";
 import clearSvg from "../../assets/img/clear.svg";
 import styles from "./Searching.module.scss";
-import { setSearch } from "../../redux/slices/filterSlice";
+import { setSearch } from "../../redux/fliter/slice";
+import { selectFilter } from "../../redux/fliter/selectors";
 
-const Searching = () => {
+export const Searching: React.FC = () => {
+  const { searchInput } = useSelector(selectFilter);
   const dispatch = useDispatch();
   const [str, setStr] = React.useState("");
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const updateChangeStr = React.useCallback(
-    debounce((str) => {
-      dispatch(setSearch(str));
-    }, 200),
-    []
+  const onclickLoop = () => {
+    if (inputRef.current) inputRef.current.focus();
+  };
+
+  React.useEffect(() => {
+    if (searchInput) {
+      setStr(searchInput);
+    }
+  }, [searchInput]);
+
+  const updateChangeStr = React.useMemo(
+    () =>
+      debounce((str: string) => {
+        dispatch(setSearch(str));
+      }, 200),
+    [dispatch]
   );
-  const onSearchInput = (event) => {
+  const onSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStr(event.target.value);
     updateChangeStr(event.target.value);
   };
@@ -29,7 +43,12 @@ const Searching = () => {
 
   return (
     <div className={styles.parent}>
-      <img className={styles.lope} src={searchSvg} alt="поиск" />
+      <img
+        className={styles.lope}
+        src={searchSvg}
+        onClick={onclickLoop}
+        alt="поиск"
+      />
       {str ? (
         <img
           className={styles.clear}
@@ -44,6 +63,7 @@ const Searching = () => {
         ""
       )}
       <input
+        ref={inputRef}
         value={str}
         onChange={onSearchInput}
         className={styles.input}
@@ -52,5 +72,3 @@ const Searching = () => {
     </div>
   );
 };
-
-export default Searching;

@@ -1,7 +1,7 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
 
-const ContentLoading = () => (
+export const ContentLoading: React.FC = () => (
   <ContentLoader
     className="pizza-block"
     speed={2}
@@ -18,5 +18,3 @@ const ContentLoading = () => (
     <rect x="10" y="259" rx="6" ry="6" width="247" height="21" />
   </ContentLoader>
 );
-
-export default ContentLoading;

@@ -31,7 +31,7 @@
   }
 
   &__popupNotActive {
-    transition: opacity 0.1s ease-in-out, visibility 0.1s ease-in-out;
+    transition: opacity 0.05s ease-in-out, visibility 0.05s ease-in-out;
     visibility: hidden;
     z-index: 1;
     position: absolute;
@@ -46,15 +46,14 @@
     padding: 10px 0;
     width: 160px;
     opacity: 0;
-    transform: translateY(50%);
   }
 
   &__popup {
-    transition: transform 0.2s ease-in;
-    transform: translateY(-10%);
+    transition: transform 0.15s ease-in;
+    transform: translateY(50%);
     position: absolute;
     right: 0;
-    margin-top: 15px;
+    margin-top: -65px;
     background: #ffffff;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.09);
     border-radius: 10px;

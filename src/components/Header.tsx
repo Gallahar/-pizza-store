@@ -1,14 +1,14 @@
 import pizzaImg from "../assets/img/pizza-logo.svg";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import Searching from "./Searching";
+import { Searching } from "./";
 import { useSelector } from "react-redux";
 import { selectCartPizzas } from "../redux/cart/selectors";
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
+  const { pizzas, totalPrice } = useSelector(selectCartPizzas);
   const firstRender = React.useRef(false);
   const location = useLocation();
-  const { pizzas, totalPrice } = useSelector(selectCartPizzas);
   const productsCount = pizzas.reduce(
     (sum: number, obj: { count: number }) => sum + obj.count,
     0
@@ -38,7 +38,7 @@ const Header: React.FC = () => {
         <div className="header__cart">
           <Link to="Cart" className="button button--cart">
             <span>{totalPrice} ₽</span>
-            <div className="button__delimiter"></div>
+            <div className="button__delimiter" />
             <svg
               width="18"
               height="18"
@@ -75,5 +75,3 @@ const Header: React.FC = () => {
     </div>
   );
 };
-
-export default Header;
