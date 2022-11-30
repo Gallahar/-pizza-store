@@ -8,4 +8,4 @@
  `react-paginate`
  `axios`
  `qs` 
-For testing here's link to Gh-pages live  ###`https://gallahar.github.io/-pizza-store/`
+### For testing here's link to Gh-pages live `https://gallahar.github.io/-pizza-store/`
