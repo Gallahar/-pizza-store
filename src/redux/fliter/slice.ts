@@ -9,7 +9,7 @@ const initialState: IFilterSliceState = {
     sort: "rating",
   },
   searchInput: "",
-  order: false,
+  order: "",
 };
 
 const filterSlice = createSlice({
@@ -35,7 +35,7 @@ const filterSlice = createSlice({
       state.order = action.payload.order;
       state.searchInput = action.payload.searchInput;
     },
-    setOrder: (state, action: PayloadAction<boolean>) => {
+    setOrder: (state, action: PayloadAction<string>) => {
       state.order = action.payload;
     },
   },

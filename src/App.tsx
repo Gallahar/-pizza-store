@@ -15,7 +15,7 @@ const PizzaInfo = Loadable({
     import(/* webpackChunkName: "PizzaInfo" */ "./pages/PizzaInfo/PizzaInfo"),
   loading: () => <div>Загружаю информацию о пицце...</div>,
 });
-const App: React.FC = () => {
+const App: React.FC = React.memo(() => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
@@ -27,6 +27,6 @@ const App: React.FC = () => {
       </Route>
     </Routes>
   );
-};
+});
 
 export default App;

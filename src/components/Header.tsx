@@ -1,14 +1,20 @@
 import pizzaImg from "../assets/img/pizza-logo.svg";
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Searching } from "./";
 import { useSelector } from "react-redux";
-import { selectCartPizzas } from "../redux/cart/selectors";
+import {
+  selectCartPizzas,
+  selectCartTotalPrice,
+} from "../redux/cart/selectors";
 
-export const Header: React.FC = () => {
-  const { pizzas, totalPrice } = useSelector(selectCartPizzas);
-  const firstRender = React.useRef(false);
+export const Header: React.FC = React.memo(() => {
   const location = useLocation();
+  const pizzas = useSelector(selectCartPizzas);
+  const totalPrice = useSelector(selectCartTotalPrice);
+  const firstRender = React.useRef(false);
+
   const productsCount = pizzas.reduce(
     (sum: number, obj: { count: number }) => sum + obj.count,
     0
@@ -21,7 +27,6 @@ export const Header: React.FC = () => {
     }
     firstRender.current = true;
   }, [pizzas]);
-
   return (
     <div className="header">
       <div className="container">
@@ -74,4 +79,4 @@ export const Header: React.FC = () => {
       </div>
     </div>
   );
-};
+});

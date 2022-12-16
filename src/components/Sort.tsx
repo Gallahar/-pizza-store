@@ -43,7 +43,7 @@ export const Sort: React.FC<TSortProps> = React.memo(({ sort, order }) => {
     <div className="sort" ref={popupRef}>
       <div className="sort__label">
         <svg
-          onClick={() => dispatch(setOrder(!order))}
+          onClick={() => dispatch(setOrder(order?"":"desc"))}
           className={order ? "svgRotate" : ""}
           width="10"
           height="6"

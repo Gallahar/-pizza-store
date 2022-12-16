@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import debounce from "lodash.debounce";
 
@@ -7,9 +7,12 @@ import clearSvg from "../../assets/img/clear.svg";
 import styles from "./Searching.module.scss";
 import { setSearch } from "../../redux/fliter/slice";
 import { selectFilter } from "../../redux/fliter/selectors";
+import { RootStore } from "../../redux/store";
 
-export const Searching: React.FC = () => {
-  const { searchInput } = useSelector(selectFilter);
+export const Searching: React.FC = memo(() => {
+  const searchInput = useSelector(
+    (state: RootStore) => selectFilter(state).searchInput
+  );
   const dispatch = useDispatch();
   const [str, setStr] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -71,4 +74,4 @@ export const Searching: React.FC = () => {
       />
     </div>
   );
-};
+});

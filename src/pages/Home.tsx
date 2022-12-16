@@ -26,7 +26,7 @@ type TParsedQuery = {
   searchInput: string;
 };
 
-const Home: React.FC = () => {
+const Home: React.FC = React.memo(() => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -111,6 +111,6 @@ const Home: React.FC = () => {
       <Pagination pagination={pagination} />
     </div>
   );
-};
+});
 
 export default Home;

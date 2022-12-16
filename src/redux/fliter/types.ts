@@ -8,5 +8,5 @@ export interface IFilterSliceState {
   categoryIndex: number;
   sort: TSort;
   searchInput: string;
-  order: boolean | string;
+  order:  string;
 }
