@@ -15,7 +15,7 @@ export const Searching: React.FC = memo(() => {
   );
   const dispatch = useDispatch();
   const [str, setStr] = React.useState("");
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLInputElement|null>(null);
 
   const onclickLoop = () => {
     if (inputRef.current) inputRef.current.focus();
@@ -62,9 +62,7 @@ export const Searching: React.FC = memo(() => {
             event.preventDefault();
           }}
         />
-      ) : (
-        ""
-      )}
+      ) : null}
       <input
         ref={inputRef}
         value={str}

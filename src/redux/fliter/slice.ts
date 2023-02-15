@@ -30,8 +30,8 @@ const filterSlice = createSlice({
     },
     setParams: (state, action: PayloadAction<IFilterSliceState>) => {
       state.sort = action.payload.sort;
-      state.categoryIndex = Number(action.payload.categoryIndex);
-      state.pagination = Number(action.payload.pagination);
+      state.categoryIndex = action.payload.categoryIndex;
+      state.pagination = action.payload.pagination;
       state.order = action.payload.order;
       state.searchInput = action.payload.searchInput;
     },
